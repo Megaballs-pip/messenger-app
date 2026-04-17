@@ -165,12 +165,15 @@ def start_http():
         httpd.serve_forever()
 
 async def start_websocket():
-    ws_port = int(os.environ.get("PORT", 8765))
-    async with websockets.serve(handler, "0.0.0.0", ws_port):
-        print(f"💬 WebSocket сервер на порту {ws_port}")
+    # WebSocket должен слушать ТОТ ЖЕ порт, что и HTTP
+    port = int(os.environ.get("PORT", 8080))
+    async with websockets.serve(handler, "0.0.0.0", port):
+        print(f"💬 WebSocket сервер на порту {port}")
         await asyncio.Future()
 
 if __name__ == "__main__":
     print("🚀 Запуск мессенджера...")
+    # Запускаем HTTP сервер в фоне
     threading.Thread(target=start_http, daemon=True).start()
+    # Запускаем WebSocket сервер (он будет на том же порту)
     asyncio.run(start_websocket())
