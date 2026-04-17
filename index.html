@@ -54,7 +54,7 @@
     if(!myName){ myName = prompt("Ваше имя:"); localStorage.setItem("name", myName); }
     document.getElementById("myName").innerText = myName;
     let currentChat = "all", typingTimeout;
-   https://messenger-app-94gk.onrender.com
+   const WS_URL = "wss://messenger-app-94gk.onrender.com";
     function connect(){
         ws = new WebSocket(WS_URL);
         ws.onopen = () => ws.send(JSON.stringify({type:"register", username:myName}));
